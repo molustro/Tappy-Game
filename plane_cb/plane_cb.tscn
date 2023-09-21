@@ -1,0 +1,76 @@
+[gd_scene load_steps=10 format=3 uid="uid://ct5lkcr6s07je"]
+
+[ext_resource type="Texture2D" uid="uid://eupo6yq0smrh" path="res://assets/plane/planes_sheet.png" id="1_6oxjq"]
+[ext_resource type="Script" path="res://plane_cb/plane_cb.gd" id="1_nupr3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xcxvp"]
+atlas = ExtResource("1_6oxjq")
+region = Rect2(0, 0, 88, 73)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ommno"]
+atlas = ExtResource("1_6oxjq")
+region = Rect2(88, 0, 88, 73)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nsiiw"]
+atlas = ExtResource("1_6oxjq")
+region = Rect2(176, 0, 88, 73)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_v2rrm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xcxvp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ommno")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nsiiw")
+}],
+"loop": true,
+"name": &"fly",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vp7eq"]
+radius = 36.0555
+
+[sub_resource type="Animation" id="Animation_bwhss"]
+resource_name = "fly"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, -0.349066, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_r684n"]
+_data = {
+"fly": SubResource("Animation_bwhss")
+}
+
+[node name="PlaneCB" type="CharacterBody2D" groups=["plane"]]
+script = ExtResource("1_nupr3")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_v2rrm")
+animation = &"fly"
+autoplay = "fly"
+frame = 2
+frame_progress = 0.610419
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = -3.12773
+shape = SubResource("CircleShape2D_vp7eq")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_r684n")
+}
